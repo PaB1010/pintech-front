@@ -11,7 +11,7 @@ const colors = {
   white: '#fff',
 }
 
-export const buttonCOlors = {
+export const buttonColors = {
   // [버튼 배경색, 글자색]
   primary: [colors.primary, colors.white],
   secondary: [colors.secondary, colors.white],

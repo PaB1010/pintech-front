@@ -3,15 +3,19 @@
 import React, { useState, useCallback, useActionState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import JoinForm from '../components/JoinForm'
-import { processJoin } from '../../services/actions'
+import { processJoin } from '../services/actions'
 
 const JoinContainer = () => {
   // QueryString 값 받는 용
   const searchParams = useSearchParams()
 
-  const actionState = useActionState(processJoin, searchParams)
+  const params = { redirectUrl: searchParams.get('redirectUrl') }
 
-  const [form, setForm] = useState({})
+  const actionState = useActionState(processJoin, params)
+
+  const [form, setForm] = useState({
+    gender: 'MALE',
+  })
 
   const onChange = useCallback((e) => {
     setForm((form) => ({ ...form, [e.target.name]: e.target.value }))

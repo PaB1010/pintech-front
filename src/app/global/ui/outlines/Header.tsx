@@ -4,11 +4,13 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { styled } from 'styled-components'
-import { RiLoginBoxLine } from 'react-icons/ri'
+import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri'
+import { MdContactPage } from 'react-icons/md'
 import { FaUserPlus, FaHome, FaSearch } from 'react-icons/fa'
 import colors from '../../styles/colors'
 import sizes from '../../styles/sizes'
-import logo from '../../assets/images/logo.jpg'
+import logo from '../../assets/images/logo2.png'
+import useUser from '../../hooks/useUser'
 
 const { white, primary, light, dark } = colors
 const { medium, big } = sizes
@@ -96,6 +98,11 @@ const StyledMenu = styled.nav`
 `
 
 const Header = () => {
+  const { userInfo, isLogin } = useUser()
+
+  const email = userInfo?.email
+  const name = userInfo?.name
+
   return (
     <StyledHeader>
       <div className="site-top">
@@ -107,12 +114,28 @@ const Header = () => {
             </Link>
           </div>
           <div className="right">
-            <a href="/member/join">
-              <FaUserPlus /> 회원 가입
-            </a>
-            <a href="/member/login">
-              <RiLoginBoxLine /> 로그인
-            </a>
+            {isLogin ? (
+              <>
+                {name}({email})님 /
+                <a href="/mypage">
+                  <MdContactPage />
+                  마이페이지
+                </a>
+                <a href="/member/api/logout">
+                  <RiLogoutBoxLine />
+                  로그아웃
+                </a>
+              </>
+            ) : (
+              <>
+                <a href="/member/join">
+                  <FaUserPlus /> 회원가입
+                </a>
+                <a href="/member/login">
+                  <RiLoginBoxLine /> 로그인
+                </a>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -121,7 +144,7 @@ const Header = () => {
         <div className="layout-width">
           {/* 컨텐츠 영역 */}
           <Link href="/" className="logo">
-            <Image src={logo} alt="로고" priority={true} height={100} />
+            <Image src={logo} alt="로고" priority={true} height={220} />
           </Link>
 
           <StyledForm method="GET" action="/board/search" autoComplete="off">
